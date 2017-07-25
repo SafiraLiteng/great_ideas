@@ -1,0 +1,43 @@
+<div style="margin-left:4%;">
+
+<h1 class="title" style="color:white;">
+  <%= @idea.title %>
+</h1>
+
+<p class="date" style="color:white;">
+  Submitted <%= time_ago_in_words(@idea.created_at) %> ago
+  <% if @idea.user == current_user %>
+  | <%=  link_to 'Edit', edit_idea_path(@idea)  %>
+  <%= link_to 'Delete', idea_path(@idea),
+  method: :delete,
+  data: { confirm: 'Are you sure?' } %>
+  <% end %>
+
+</p>
+<p class = "body" style="color:white;">
+  <%= @idea.body %>
+</p>
+
+<div id="comments" style="color:white;">
+  <h2><%= @idea.comments.count %> Reviews</h2>
+    <% @idea.comments.each do |comment| %>
+    <%= comment.body %>
+    <% if comment.is_flagged %>
+  <span><i class="fa fa-flag" aria-hidden="true"></i></span>
+    <% end %>
+
+    <% if can? :destroy, comment %>
+    <%= link_to 'Delete', [@idea, comment],
+    method: :delete, data: {confirm: 'Are you sure?'}, class: "btn btn-danger pull-right" %>
+    <% end %>
+
+    <% if can? :flag, comment %>
+    <%= link_to (comment.is_flagged ? 'Unflag' : 'Flag'), [@idea, comment],
+    method: :put, class: "btn btn-info pull-right flag-button" %>
+    <% end %>
+<h1>∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙</h1>
+  <% end %>
+  <h3>Review</h3>
+    <%= render "comments/form" %>
+</div>
+</div>

@@ -1,0 +1,17 @@
+<div class="comments">
+
+<div class="comment_content">
+  <p class ="comment-name"><strong> <%= comment.name %></strong></p>
+  <p class = "comment.body"><%= comment.body %></p>
+  <p class = "comment.time" style="text-decoration: underline">👆🏼 was commented <%= time_ago_in_words(comment.created_at) %> ago</p>
+</div>
+
+<% if comment.idea.user == current_user %>
+
+<p><%= link_to 'Delete', [comment.idea, comment ],
+        method: :delete,
+        class: "button",
+        data: {confirm: "Are you sure?"}%></p>
+        <%end %>
+
+</div>
